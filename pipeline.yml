@@ -10,7 +10,7 @@ resources:
   type: git
   source:
     branch: master
-    uri: https://github.com/pivotal-cf/aws-concourse.git
+    uri: https://github.com/mtthwcmpbll/aws-concourse.git
 
 - name: pcfawsops-terraform-state-put
   type: s3
@@ -20,6 +20,7 @@ resources:
     secret_access_key: {{TF_VAR_aws_secret_key}}
     endpoint: {{S3_ENDPOINT}}
     bucket: {{S3_OUTPUT_BUCKET}}
+    region_name: {{TF_VAR_aws_region}}
     versioned_file: terraform.tfstate
 
 - name: pcfawsops-terraform-state-get
@@ -30,6 +31,7 @@ resources:
     secret_access_key: {{TF_VAR_aws_secret_key}}
     endpoint: {{S3_ENDPOINT}}
     bucket: {{S3_OUTPUT_BUCKET}}
+    region_name: {{TF_VAR_aws_region}}
     versioned_file: terraform.tfstate
 
 - name: tool-om
@@ -80,7 +82,7 @@ jobs:
   plan:
   - aggregate:
     - get: aws-concourse
-    - get: pcfawsops-terraform-state-get
+    # - get: pcfawsops-terraform-state-get
   - task: aws-pcf-prepare
     file: aws-concourse/tasks/prepare-aws.yml
     params:
