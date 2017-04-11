@@ -75,14 +75,14 @@ perl -pi -e "s/{{infra_subnet_reserved}}/${infra_subnet_reserved_ranges_z1}/g" $
 perl -pi -e "s/{{infra_subnet_gw}}/${infra_subnet_gw_az1}/g" ${json_file}
 
 echo "=============================================================================================="
-echo "Configuring Director @ https://opsman.$ERT_DOMAIN ..."
+echo "Configuring Director @ https://$OPSMAN_URI ..."
 cat $json_file
 echo "=============================================================================================="
 
 sudo cp tool-om-beta/om-linux /usr/local/bin
 sudo chmod 755 /usr/local/bin/om-linux
 
-om-linux -t https://opsman.$ERT_DOMAIN -u "$OPSMAN_USER" -p "$OPSMAN_PASSWORD" -k \
+om-linux -t "https://$OPSMAN_URI" -u "$OPSMAN_USER" -p "$OPSMAN_PASSWORD" -k \
   aws -a $AWS_ACCESS_KEY_ID \
   -s $AWS_SECRET_ACCESS_KEY \
   -d $RDS_PASSWORD \
